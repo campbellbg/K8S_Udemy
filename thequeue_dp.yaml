@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: queue-deploy
+spec:
+   selector:
+      matchLabels:
+         myappname: myqueue
+   replicas: 1
+   template:            #This is the POD definition
+      metadata:
+         labels:
+            myappname: myqueue
+      spec:
+         containers:
+         - name: thequeuecont
+           image: richardchesterwood/k8s-fleetman-queue:release1

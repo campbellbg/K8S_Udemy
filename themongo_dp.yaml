@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: mongo-deploy
+spec:
+   selector:
+      matchLabels:
+         myappname: mymongo
+   replicas: 1
+   template:            #This is the POD definition
+      metadata:
+         labels:
+            myappname: mymongo
+      spec:
+         containers:
+         - name: themongocont
+           image: mongo:3.6.14
+           volumeMounts:
+           - name: themongo-persist
+             mountPath: /data/db #This is where mongodb persists its data. We are going to mount this elsewhere
+         volumes:
+         - name: themongo-persist
+           persistentVolumeClaim: 
+              claimName: themongo-pvc

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: tracker-deploy
+spec:
+   selector:
+      matchLabels:
+         myappname: mytracker
+   replicas: 1
+   template:            #This is the POD definition
+      metadata:
+         labels:
+            myappname: mytracker
+      spec:
+         containers:
+         - name: thetrackcont
+           image: richardchesterwood/k8s-fleetman-position-tracker:release3
+           env:
+           - name: SPRING_PROFILES_ACTIVE
+             value: production-microservice

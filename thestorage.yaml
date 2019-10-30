@@ -1,0 +1,47 @@
+
+#What storage do I need to ask for, for my volumeMount
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+   name: themongo-pvc
+spec:
+   storageClassName: thelocalstorage #This defines from which PV's the claim could be serviced by
+   accessModes:
+   - ReadWriteOnce #Read/Write AND only mounted by a single node
+   resources: 
+      requests:
+         storage: 10Gi #What capacity does the claim take from the PV
+
+---
+
+#Configure the storage volume, from which the claims will be 'taken'
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: themongo-pv-local-slow #label it with local for local storage. Allows me to define several Persistent Volumes
+spec:
+   storageClassName: thelocalstorage
+   capacity:
+      storage: 20Gi
+   accessModes:
+   - ReadWriteOnce
+   hostPath:
+      path: "/mnt/slowdatagoeshere/" #This will be created on the host virtual-box VM
+      type: DirectoryOrCreate
+
+---
+
+#Configure the storage volume, from which the claims will be 'taken'
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: themongo-pv-local-fast #Playing around with a second one to see how this works
+spec:
+   storageClassName: thefaststorage
+   capacity:
+      storage: 5Gi
+   accessModes:
+   - ReadWriteOnce
+   hostPath:
+      path: "/mnt/fastdatagoeshere/" #This will be created on the host virtual-box VM
+      type: DirectoryOrCreate

@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+   name: fleetman-queueadmin
+spec:
+   selector:
+      myappname: myqueue
+   ports:
+      - name: adminconsole
+        port: 8161
+        targetPort: 8161
+        nodePort: 30010
+
+   type: NodePort
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+   name: fleetman-queue
+spec:
+   selector:
+      myappname: myqueue
+   ports:
+      - name: queuetraffic
+        port: 61616
+        targetPort: 61616
+
+   type: ClusterIP

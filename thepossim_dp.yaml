@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+   name: possim-deploy
+spec:
+   selector:
+      matchLabels:
+         myappname: mypossim
+   replicas: 1
+   template:            #This is the POD definition
+      metadata:
+         labels:
+            myappname: mypossim
+      spec:
+         containers:
+         - name: thepossimcont
+           image: richardchesterwood/k8s-fleetman-position-simulator:release1
+           env:
+           - name: SPRING_PROFILES_ACTIVE
+             value: production-microservice
