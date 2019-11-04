@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+   name: fleetman-queue
+spec:
+   selector:
+      myappname: myqueue
+   ports:
+      - name: queuetraffic
+        port: 61616
+        targetPort: 61616
+
+   type: ClusterIP
