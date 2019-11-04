@@ -1,0 +1,25 @@
+
+#What storage do I need to ask for, for my volumeMount
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+   name: themongo-pvc
+spec:
+   storageClassName: thebsstore #This defines from which PV's the claim could be serviced by
+   accessModes:
+   - ReadWriteOnce #Read/Write AND only mounted by a single node
+   resources: 
+      requests:
+         storage: 10Gi #What capacity does the claim take from the PV
+
+---
+
+#Storage Class type is a simpler syntax for provisioning AWS EBS
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+   name: thebsstore
+provisioner: kubernetes.io/aws-ebs #AWS elastic block storage
+parameters:
+   type: gp2 
+   #zones: <we are leaving blank. Will be randomly assigned to one of the subnets>
